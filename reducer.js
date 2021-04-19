@@ -1,8 +1,8 @@
-import DATA from "./storage.js";
+import DATA from './storage.js';
 const init = {
     todos: DATA.get(),
-    editIndex:null,
-    filter: "all",
+    editIndex: null,
+    filter: 'all',
     filters: {
         all: () => true,
         active: (todo) => !todo.completed,
@@ -27,16 +27,14 @@ const actions = {
         DATA.set(todos);
     },
     toggleAll({ todos }, completed) {
-        todos.forEach(todo => {
+        todos.forEach((todo) => {
             todo.completed = completed;
             DATA.set(todos);
-
         });
     },
     clear(state) {
         state.todos = state.todos.filter(state.filters.active);
         DATA.set(state.todos);
-
     },
     filter(state, TypeFilter) {
         state.filter = TypeFilter;
@@ -45,26 +43,21 @@ const actions = {
         state.editIndex = index;
     },
     editDone(state, value) {
-        if(value){
-            if(state.editIndex != null) {
+        if (value) {
+            if (state.editIndex != null) {
                 state.todos[state.editIndex].title = value;
                 state.editIndex = null;
                 DATA.set(state.todos);
             }
-        }else {
-            this.delete(state, state.editIndex)
+        } else {
+            this.delete(state, state.editIndex);
         }
     },
     cancelEdit(state, value) {
-        if(value) {
+        if (value) {
             state.editIndex = null;
-        }else  this.delete(state, state.editIndex) 
+        } else this.delete(state, state.editIndex);
     },
-    focusHader(state) {
-        state.editIndex = null;
-    }
-
-    
 };
 
 export default function reducer(state = init, action, args) {
